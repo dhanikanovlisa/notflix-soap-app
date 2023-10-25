@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:21
 COPY ./target /app
 WORKDIR /app
 EXPOSE 3030

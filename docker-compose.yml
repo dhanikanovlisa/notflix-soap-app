@@ -3,5 +3,26 @@ services:
   soap-service:
     container_name: soap-srv-container
     image: soap-tubes2:latest
+    env_file: .env
     ports:
-      - "3030:3030"
+      - "3030:80"
+    depends_on:
+      - soap-db
+  soap-db:
+    container_name: soap-db-container
+    image: mysql
+    restart: unless-stopped
+    volumes:
+      - ./migration/service-soap.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    env_file: .env
+    ports:
+      - "3040:3306"
+  phpmyadmin:
+    container_name: soap-srv-pma
+    image: phpmyadmin
+    depends_on:
+      - soap-db
+    environment:
+      PMA_HOST: soap-db
+    ports:
+      - "4030:80"
