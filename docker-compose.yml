@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  soap-service:
+    container_name: soap-srv-container
+    image: soap-tubes2:latest
+    ports:
+      - "3030:3030"
