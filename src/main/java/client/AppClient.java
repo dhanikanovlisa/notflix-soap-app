@@ -1,4 +1,4 @@
 package client;
 
-public abstract class AppClient {
+public class AppClient {
 }
