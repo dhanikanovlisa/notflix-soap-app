@@ -1,10 +1,8 @@
 package service;
 
 import jakarta.jws.WebMethod;
-import jakarta.jws.WebService;
 
-@WebService
-public class SubscriptionWS implements RequestProcessingService{
+public class RequestFilmWS implements RequestProcessingService{
     @WebMethod
     public void acceptRequest(){
 
@@ -16,9 +14,5 @@ public class SubscriptionWS implements RequestProcessingService{
     @WebMethod
     public void request(){
 
-    }
-    @WebMethod
-    public String greeting(String name){
-        return "Hello "+name;
     }
 }
