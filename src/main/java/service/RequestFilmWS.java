@@ -2,20 +2,23 @@ package service;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import model.RequestFilmModel;
+import object.RequestFilm;
 
-public class RequestFilmWS implements RequestProcessingService{
-    public void acceptRequest(@WebParam(name = "creator_id") Integer creator_id,
-                              @WebParam(name = "requestFilm_id") Integer subscriber_id){
+import java.util.List;
 
-    }
+@WebService
+public class RequestFilmWS {
+
+
     @WebMethod
-    public void rejectRequest(@WebParam(name = "creator_id") Integer creator_id,
-                              @WebParam(name = "requestFilm_id") Integer subscriber_id){
-
-    }
-    @WebMethod
-    public void request(@WebParam(name = "creator_id") Integer creator_id,
-                        @WebParam(name = "requestFilm_id") Integer subscriber_id){
-
+    public List<RequestFilm> getAllRequestFilms(){
+        try {
+            return RequestFilmModel.getInstance().getAllRequestFilm();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
