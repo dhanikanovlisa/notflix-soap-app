@@ -13,8 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 
 public class RequestFilm {
-    private int creator_id;
     private int requestFilm_id;
+    private int user_id;
     private String filmName;
     private String description;
     private String film_poster;

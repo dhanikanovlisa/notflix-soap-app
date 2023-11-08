@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ApiKeysModel {
     private Database db;
     private String table;
@@ -25,4 +26,6 @@ public class ApiKeysModel {
             return null;
         }
     }
+
+
 }
