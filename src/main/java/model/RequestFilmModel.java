@@ -86,8 +86,6 @@ public class RequestFilmModel {
         return listRequestFilm;
     }
 
-
-
     /**Create Request Film*/
     public String createRequestFilm( int user_id, String filmName, String description, String film_path,
                                   String film_poster, String film_header, Date date_release, int duration){
@@ -106,12 +104,40 @@ public class RequestFilmModel {
             pstmt.setInt(8, duration);
 
             int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected + " rows affected";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public String editRequestFilm(int requestFilm_id, int user_id, String filmName, String description, String film_path,
+                                  String film_poster, String film_header, Date date_release, int duration){
+        String query = "UPDATE " + this.table + " SET " +
+                "user_id = ?, filmName = ?, description = ?, film_path = ?, " +
+                "film_poster = ?, film_header = ?, date_release = ?, duration = ? " +
+                "WHERE requestFilm_id = ?";
+
+        try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
+            pstmt.setInt(1, requestFilm_id);
+            pstmt.setInt(2, user_id);
+            pstmt.setString(3, filmName);
+            pstmt.setString(4, description);
+            pstmt.setString(5, film_path);
+            pstmt.setString(6, film_poster);
+            pstmt.setString(7, film_header);
+            pstmt.setDate(8, new java.sql.Date(date_release.getTime()));
+            pstmt.setInt(9, duration);
+
+            int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + "rows affected";
         } catch (SQLException e) {
             e.printStackTrace();
             return "";
         }
     }
+
+
 
     public String deleteRequestFilm(int requestFilm_id, int user_id) throws SQLException {
         String query = "DELETE FROM " + this.table + " WHERE requestFilm_id = ?";

@@ -10,15 +10,18 @@ import java.util.Date;
 import java.util.List;
 
 @WebService
-public class RequestFilmWS {
+public class RequestFilmWS extends BaseWS{
     @WebMethod
-    public List<RequestFilm> getAllRequestFilms(){
-        try {
-            return RequestFilmModel.getInstance().getAllRequestFilm();
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
+    public List<RequestFilm> getAllRequestFilms() {
+        if (verifyApiKey()) {
+            try {
+                return RequestFilmModel.getInstance().getAllRequestFilm();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
+        return null;
     }
 
     @WebMethod
@@ -45,6 +48,8 @@ public class RequestFilmWS {
         }
     }
 
+
+
     @WebMethod
     public String deleteRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id,
                                     @WebParam(name="user_id") int user_id){
@@ -55,6 +60,4 @@ public class RequestFilmWS {
             return null;
         }
     }
-
-
 }
