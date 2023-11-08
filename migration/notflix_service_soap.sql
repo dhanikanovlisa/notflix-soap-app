@@ -27,7 +27,7 @@ CREATE TABLE `api_keys` (
   `api_key` varchar(255) NOT NULL,
   `client` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +36,7 @@ CREATE TABLE `api_keys` (
 
 LOCK TABLES `api_keys` WRITE;
 /*!40000 ALTER TABLE `api_keys` DISABLE KEYS */;
+INSERT INTO `api_keys` VALUES (1,'7e588ca133d33870bf37813863686615','notflix_rest_service'),(2,'9a86dee90e0c2b1696b5545047d4ee44','notflix_app');
 /*!40000 ALTER TABLE `api_keys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,8 +74,8 @@ DROP TABLE IF EXISTS `request_film`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_film` (
-  `creator_id` int NOT NULL,
-  `requestFilm_id` int NOT NULL,
+  `requestFilm_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
   `filmName` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `film_path` varchar(256) NOT NULL,
@@ -83,8 +84,8 @@ CREATE TABLE `request_film` (
   `date_release` timestamp NOT NULL,
   `duration` int NOT NULL,
   `status` enum('pending','accepted','rejected') NOT NULL DEFAULT 'pending',
-  PRIMARY KEY (`creator_id`,`requestFilm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`requestFilm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +94,7 @@ CREATE TABLE `request_film` (
 
 LOCK TABLES `request_film` WRITE;
 /*!40000 ALTER TABLE `request_film` DISABLE KEYS */;
-INSERT INTO `request_film` VALUES (1,101,'Movie Title','Description of the movie','/path/to/film','/path/to/poster','/path/to/header','2023-11-07 05:00:00',120,'pending');
+INSERT INTO `request_film` VALUES (1,2,'Movie Title','Description of the movie','/path/to/film','/path/to/poster','/path/to/header','2023-11-07 05:00:00',120,'pending');
 /*!40000 ALTER TABLE `request_film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-08 12:52:44
+-- Dump completed on 2023-11-08 20:00:33

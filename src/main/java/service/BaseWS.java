@@ -17,7 +17,7 @@ public class BaseWS {
     WebServiceContext wsContext;
     public boolean verifyApiKey() {
         try {
-            
+
             MessageContext messageContext = wsContext.getMessageContext();
             Map<String, List<String>> requestHeaders = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
             String api_key = getApiKeyFromHeaders(requestHeaders);
