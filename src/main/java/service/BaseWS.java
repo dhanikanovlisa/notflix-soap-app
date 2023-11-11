@@ -1,9 +1,12 @@
 package service;
 
-import jakarta.annotation.Resource;
-import jakarta.jws.WebService;
-import jakarta.xml.ws.WebServiceContext;
-import jakarta.xml.ws.handler.MessageContext;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
 import model.ApiKeysModel;
 import model.LoggingModel;
 
@@ -11,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 public class BaseWS {
     @Resource

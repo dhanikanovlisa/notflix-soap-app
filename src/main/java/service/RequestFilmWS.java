@@ -1,15 +1,16 @@
 package service;
 
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebParam;
-import jakarta.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
 import model.RequestFilmModel;
 import object.RequestFilm;
 
 import java.util.Date;
 import java.util.List;
 
-@WebService
+@WebService(endpointInterface = "service.RequestFilmWS")
 public class RequestFilmWS extends BaseWS{
     @WebMethod
     public List<RequestFilm> getAllRequestFilms() {
