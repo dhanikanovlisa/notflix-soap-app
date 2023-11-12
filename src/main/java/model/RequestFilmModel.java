@@ -34,6 +34,7 @@ public class RequestFilmModel {
             return null;
         }
     }
+
     /** Get All Request Film*/
     public List<RequestFilm> getAllRequestFilm() throws SQLException {
         List<RequestFilm> listRequestFilm = new ArrayList<>();
@@ -86,6 +87,29 @@ public class RequestFilmModel {
         return listRequestFilm;
     }
 
+    /**Get Request Film by Film Id */
+    public RequestFilm getRequestFilmByFilmId(int requestFilm_id) throws SQLException{
+        RequestFilm rf = new RequestFilm();
+        String query = "SELECT * FROM " + this.table + " WHERE requestFilm_id = ?";
+        try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
+            pstmt.setInt(1, requestFilm_id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rf.setRequestFilm_id(rs.getInt("requestFilm_id"));
+                rf.setUser_id(rs.getInt("user_id"));
+                rf.setFilmName(rs.getString("filmName"));
+                rf.setDescription(rs.getString("description"));
+                rf.setFilm_path(rs.getString("film_path"));
+                rf.setFilm_poster(rs.getString("film_poster"));
+                rf.setFilm_header(rs.getString("film_header"));
+                rf.setDate_release(rs.getDate("date_release"));
+                rf.setDuration(rs.getInt("duration"));
+                rf.setStatus(Status.fromStatusCode(rs.getString("status")));
+            }
+        }
+        return rf;
+    }
+
     /**Create Request Film*/
     public String createRequestFilm( int user_id, String filmName, String description, String film_path,
                                   String film_poster, String film_header, Date date_release, int duration){
@@ -136,8 +160,6 @@ public class RequestFilmModel {
             return "";
         }
     }
-
-
 
     public String deleteRequestFilm(int requestFilm_id) throws SQLException {
         String query = "DELETE FROM " + this.table + " WHERE requestFilm_id = ?";

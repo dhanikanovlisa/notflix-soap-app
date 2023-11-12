@@ -56,6 +56,27 @@ public class RequestFilmWS extends BaseWS{
     }
 
     @WebMethod
+    public RequestFilm getRequestFilmByFilmId(@WebParam(name="requestFilm_id") int requestFilm_Id){
+        if(verifyApiKey()){
+            try {
+                RequestFilm result =  RequestFilmModel.getInstance().getRequestFilmByFilmId(requestFilm_Id);
+                if(result == null){
+                    return null;
+                } else {
+                    insertLog("", "service.RequestFilmWS");
+                    return result;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            System.out.println("Not valid API-Key");
+            return null;
+        }
+    }
+
+    @WebMethod
     public String createRequestFilm(@WebParam(name="user_id") int user_id, @WebParam(name="filmName") String filmName,
                                     @WebParam(name="description") String description, @WebParam(name="film_path") String film_path,
                                     @WebParam(name="film_poster") String film_poster, @WebParam(name="film_header") String film_header,
@@ -74,7 +95,24 @@ public class RequestFilmWS extends BaseWS{
         }
     }
 
-
+    @WebMethod
+    public String editRequestFilm(@WebParam(name="requestFilm_Id") int requestFilm_id, @WebParam(name="user_id") int user_id, @WebParam(name="filmName") String filmName,
+                                    @WebParam(name="description") String description, @WebParam(name="film_path") String film_path,
+                                    @WebParam(name="film_poster") String film_poster, @WebParam(name="film_header") String film_header,
+                                    @WebParam(name="date_release") Date date_release,@WebParam(name="duration") int duration){
+        if(verifyApiKey()){
+            try {
+                return RequestFilmModel.getInstance().editRequestFilm(requestFilm_id, user_id, filmName, description, film_path,
+                        film_poster, film_header, date_release, duration);
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            System.out.println("Not valid API-Key");
+            return null;
+        }
+    }
 
     @WebMethod
     public String deleteRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id){
