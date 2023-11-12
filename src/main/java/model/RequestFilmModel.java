@@ -139,7 +139,7 @@ public class RequestFilmModel {
 
 
 
-    public String deleteRequestFilm(int requestFilm_id, int user_id) throws SQLException {
+    public String deleteRequestFilm(int requestFilm_id) throws SQLException {
         String query = "DELETE FROM " + this.table + " WHERE requestFilm_id = ?";
 
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {

@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
 import model.ApiKeysModel;
 import model.LoggingModel;
 
@@ -45,13 +47,19 @@ public class BaseWS {
         }
     }
 
-    public String insertLog(String description, String ip, String endpoint){
+    public String insertLog(String description, String endpoint) {
         try {
+
+            MessageContext msgContext = wsContext.getMessageContext();
+            HttpExchange exchange = (HttpExchange) msgContext.get("com.sun.xml.ws.http.exchange");
+            Headers reqHeaders = exchange.getRequestHeaders();
+            String ip = reqHeaders.getFirst("X-Forwarded-For");
             Timestamp ts = new Timestamp(System.currentTimeMillis());
             return LoggingModel.getInstance().createLog(description, ip, endpoint, ts);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
     }
+
 }

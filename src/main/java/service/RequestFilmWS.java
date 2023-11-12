@@ -14,23 +14,43 @@ import java.util.List;
 public class RequestFilmWS extends BaseWS{
     @WebMethod
     public List<RequestFilm> getAllRequestFilms() {
-        if (verifyApiKey()) {
+        boolean test = true;
+        if(test){
             try {
-                return RequestFilmModel.getInstance().getAllRequestFilm();
+                List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilm();
+                if(result.isEmpty()){
+                    return null;
+                } else {
+                    insertLog("Get All Request Film", "service.RequestFilmWS");
+                    return result;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
+        } else {
+            System.out.println("Not valid API-Key");
+            return null;
         }
-        return null;
     }
 
     @WebMethod
     public List<RequestFilm> getAllRequestFilmById(@WebParam(name="user_id") int user_id){
-        try {
-            return RequestFilmModel.getInstance().getAllRequestFilmById(user_id);
-        } catch (Exception e){
-            e.printStackTrace();
+        if(verifyApiKey()){
+            try {
+                List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilm();
+                if(result.isEmpty()){
+                    return null;
+                } else {
+                    insertLog("Get All Request Film", "service.RequestFilmWS");
+                    return result;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            System.out.println("Not valid API-Key");
             return null;
         }
     }
@@ -40,11 +60,16 @@ public class RequestFilmWS extends BaseWS{
                                     @WebParam(name="description") String description, @WebParam(name="film_path") String film_path,
                                     @WebParam(name="film_poster") String film_poster, @WebParam(name="film_header") String film_header,
                                     @WebParam(name="date_release") Date date_release,@WebParam(name="duration") int duration){
-        try {
-            return RequestFilmModel.getInstance().createRequestFilm( user_id, filmName, description, film_path,
-                    film_poster, film_header, date_release, duration);
-        } catch (Exception e){
-            e.printStackTrace();
+        if(verifyApiKey()){
+            try {
+                return RequestFilmModel.getInstance().createRequestFilm( user_id, filmName, description, film_path,
+                        film_poster, film_header, date_release, duration);
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            System.out.println("Not valid API-Key");
             return null;
         }
     }
@@ -52,12 +77,16 @@ public class RequestFilmWS extends BaseWS{
 
 
     @WebMethod
-    public String deleteRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id,
-                                    @WebParam(name="user_id") int user_id){
-        try{
-            return RequestFilmModel.getInstance().deleteRequestFilm(requestFilm_id, user_id);
-        } catch (Exception e){
-            e.printStackTrace();
+    public String deleteRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id){
+        if(verifyApiKey()){
+            try{
+                return RequestFilmModel.getInstance().deleteRequestFilm(requestFilm_id);
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            System.out.println("Not valid API-Key");
             return null;
         }
     }
