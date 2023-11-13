@@ -49,7 +49,10 @@ public class Database {
     }
 
     public void bind(int index, Object value) throws SQLException{
-        if(value instanceof java.sql.Date){
+        if(value instanceof java.sql.Timestamp){
+            this.psmt.setTimestamp(index, (java.sql.Timestamp)value);
+        }
+        else if(value instanceof java.sql.Date){
             this.psmt.setDate(index, (java.sql.Date)value);
         }
         else if(value instanceof java.util.Date){
