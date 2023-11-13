@@ -86,11 +86,10 @@ public class RequestFilmModel {
 
         String query = "INSERT INTO " + this.table + " (user_id, filmName, description, film_path, " +
                 "film_poster, film_header, date_release, duration) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        System.out.println(query);
         try (PreparedStatement pstmt = this.db.prepareStatement(query))
         {
             this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration);
-
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";
         } catch (SQLException e) {
@@ -107,7 +106,7 @@ public class RequestFilmModel {
                 "WHERE requestFilm_id = ?";
 
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration, requestFilm_id);
+            this.db.bind(requestFilm_id, user_id, filmName, description, film_path, film_poster, film_header, date_release, duration);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + "rows affected";
