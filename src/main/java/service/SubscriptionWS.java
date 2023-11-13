@@ -1,5 +1,6 @@
 package service;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -11,68 +12,44 @@ import object.Subscription;
 
 import java.util.List;
 
-@WebService
+@WebService(endpointInterface = "service.SubscriptionWS")
+@HandlerChain(file = "log_and_auth.xml")
 public class SubscriptionWS extends BaseWS{
     @WebMethod
     public List<Subscription> getAllSubscription(){
-        if(verifyApiKey()){
-            try{
-                return SubscriptionModel.getInstance().getAllSubscription();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+        try{
+            return SubscriptionModel.getInstance().getAllSubscription();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
-        else{
-            System.out.println("Not valid API-Key");
-        }
-        return null;
     }
 
     @WebMethod
     public String acceptRequest(@WebParam(name = "user_id") Integer user_id){
-        if(verifyApiKey()){
-            try{
-                return SubscriptionModel.getInstance().updateSubscriptionState(user_id, Status.ACCEPTED);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        else{
-            System.out.println("Not valid API-Key");
+        try{
+            return SubscriptionModel.getInstance().updateSubscriptionState(user_id, Status.ACCEPTED);
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return null;
     }
     @WebMethod
     public String rejectRequest(@WebParam(name = "user_id") Integer user_id){
-        if(verifyApiKey()){
-            try{
-                return SubscriptionModel.getInstance().updateSubscriptionState(user_id, Status.REJECTED);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        else{
-            System.out.println("Not valid API-Key");
+        try{
+            return SubscriptionModel.getInstance().updateSubscriptionState(user_id, Status.REJECTED);
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return null;
     }
     @WebMethod
     public String request(@WebParam(name = "user_id") Integer user_id){
-        if(verifyApiKey()){
-            try{
-                return SubscriptionModel.getInstance().requestSubscription(user_id);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        else{
-            System.out.println("Not valid API-Key");
+        try{
+            return SubscriptionModel.getInstance().requestSubscription(user_id);
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return null;
-    }
-
-    @WebMethod
-    public String greeting(String name){
-        return "Hello "+name;
     }
 }
