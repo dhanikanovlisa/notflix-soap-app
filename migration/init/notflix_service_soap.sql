@@ -69,7 +69,7 @@ CREATE TABLE `request_film` (
   `film_path` varchar(256) NOT NULL,
   `film_poster` varchar(256) NOT NULL,
   `film_header` varchar(256) NOT NULL,
-  `date_release` timestamp NOT NULL,
+  `date_release` date NOT NULL,
   `duration` int NOT NULL,
   `status` enum('pending','accepted','rejected') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
