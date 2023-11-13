@@ -1,1 +1,1 @@
-mvn clean install && docker build -t soap-tubes2:latest . && docker-compose down && docker-compose up -d && docker image prune -f
+docker image prune -f && docker build -t soap-tubes2:latest . && docker-compose down && docker-compose up -d
