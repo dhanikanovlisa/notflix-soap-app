@@ -1,6 +1,7 @@
 package handler;
 
 import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
 import javax.xml.ws.handler.MessageContext;
@@ -38,12 +39,11 @@ public class KeyHandler implements SOAPHandler<SOAPMessageContext> {
         }
         else{
             boolean authorized = authorize(ctx);
+            ctx.put("Authorized", authorized);
             if(!authorize(ctx)){
                 try{
-                    SOAPFault soapFault = ctx.getMessage().getSOAPPart().getEnvelope().getBody().addFault();
-                    soapFault.setFaultCode(new QName("http://example.com/namespace", "Client", "env"));
-                    soapFault.setFaultString("Unauthorized access");
-                    throw new SOAPFaultException(soapFault);
+                    injectSOAPFault(ctx, "Client", "Unauthorized");
+                    throw new SOAPFaultException(ctx.getMessage().getSOAPBody().getFault());
                 }catch(SOAPException e){
                     e.printStackTrace();
                 }
@@ -52,7 +52,15 @@ public class KeyHandler implements SOAPHandler<SOAPMessageContext> {
         }
     }
 
-    private boolean authorize(SOAPMessageContext ctx){
+    private void injectSOAPFault(SOAPMessageContext ctx, String faultCode, String faultString) throws SOAPException{
+        SOAPBody soapBody = ctx.getMessage().getSOAPBody();
+        soapBody.removeContents();
+        SOAPFault soapFault = soapBody.addFault();
+        soapFault.setFaultCode(faultCode);
+        soapFault.setFaultString(faultString);
+    }
+
+    public static boolean authorize(SOAPMessageContext ctx){
         try{
             @SuppressWarnings("unchecked")
             Map<String, List<?>> headers = (Map<String, List<?>>) ctx.get(MessageContext.HTTP_REQUEST_HEADERS);
