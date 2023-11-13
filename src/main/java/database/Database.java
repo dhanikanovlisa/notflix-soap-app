@@ -3,6 +3,8 @@ package database;
 import java.sql.*;
 import java.util.Date;
 
+import enums.Status;
+
 public class Database {
     private String host = System.getenv("DB_HOST");
     private String port = System.getenv("DB_PORT");
@@ -67,6 +69,9 @@ public class Database {
         }
         else if(value instanceof Boolean){
             this.psmt.setBoolean(index, (Boolean) value);
+        }else if(value instanceof Status){
+            Status val = (Status) value;
+            this.psmt.setString(index, "'"+val.getStatusCode().toUpperCase()+"'");
         }
     }
 
