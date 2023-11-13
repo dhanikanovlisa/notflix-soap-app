@@ -13,7 +13,7 @@ import java.util.List;
 
 @WebService(endpointInterface = "service.RequestFilmWS")
 @HandlerChain(file = "log_and_auth.xml")
-public class RequestFilmWS extends BaseWS{
+public class RequestFilmWS{
     @WebMethod
     public List<RequestFilm> getAllRequestFilms() {
         try {
