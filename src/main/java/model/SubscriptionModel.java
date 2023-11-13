@@ -22,7 +22,7 @@ public class SubscriptionModel {
     private Database db;
     private String table;
     private static SubscriptionModel instance;
-
+    
     public static SubscriptionModel getInstance() {
         try {
             if (instance == null) {
@@ -50,6 +50,33 @@ public class SubscriptionModel {
         return ls;
     }
 
+    public Status getSubscriptionStatus(int user_id) throws SQLException{
+        String query = "SELECT * FROM "+this.table+" WHERE creator_id = ?";
+        PreparedStatement pstmt = this.db.prepareStatement(query);
+        this.db.bind(user_id);
+
+        ResultSet rs = pstmt.executeQuery();
+        if(rs.next()){
+            return Status.fromStatusCode(rs.getString("status"));
+        }
+        return null;
+    }
+
+    public List<Subscription> getSubscriptionsByStatus(Status state) throws SQLException{
+        List<Subscription> ls = new ArrayList<>();
+
+        String query = "SELECT * FROM "+this.table+" WHERE status = '"+state.getStatusCode().toUpperCase()+"'";
+        PreparedStatement pstmt = this.db.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()){
+            Subscription sub = new Subscription(rs);
+            ls.add(sub);
+        }
+
+        return ls;
+    }
+    
     public String requestSubscription(int user_id) throws SQLException{
         String query = "INSERT INTO "+this.table+" (creator_id) VALUES (?)";
         PreparedStatement pstmt = this.db.prepareStatement(query);
@@ -68,4 +95,5 @@ public class SubscriptionModel {
         int rowsAffected = pstmt.executeUpdate();
         return rowsAffected + " rows affected";
     }
+
 }
