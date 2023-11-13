@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 @Getter
@@ -24,5 +26,18 @@ public class RequestFilm {
     private int duration;
     private Status status;
 
-
+    public RequestFilm(ResultSet rs) throws SQLException{
+        this(
+            rs.getInt("requestFilm_id"),
+            rs.getInt("user_id"),
+            rs.getString("filmName"),
+            rs.getString("description"),
+            rs.getString("film_path"),
+            rs.getString("film_poster"),
+            rs.getString("film_header"),
+            rs.getDate("date_release"),
+            rs.getInt("duration"),
+            Status.fromStatusCode(rs.getString("status"))
+        );
+    }
 }

@@ -20,13 +20,13 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestFilmModel {
     private Database db;
-    private String table;
+    private final String table = "request_film";
     private static RequestFilmModel instance;
 
     public static RequestFilmModel getInstance() {
         try {
             if (instance == null) {
-                instance = new RequestFilmModel(new Database(), "request_film" );
+                instance = new RequestFilmModel(new Database());
             }
             return instance;
         } catch (Exception e){
@@ -40,18 +40,7 @@ public class RequestFilmModel {
         List<RequestFilm> listRequestFilm = new ArrayList<>();
         ResultSet rs = this.db.executeQuery("SELECT * FROM " + this.table + ";");
         while(rs.next()){
-            RequestFilm rf = new RequestFilm(
-                    rs.getInt("requestFilm_id"),
-                    rs.getInt("user_id"),
-                    rs.getString("filmName"),
-                    rs.getString("description"),
-                    rs.getString("film_path"),
-                    rs.getString("film_poster"),
-                    rs.getString("film_header"),
-                    rs.getDate("date_release"),
-                    rs.getInt("duration"),
-                    Status.fromStatusCode(rs.getString("status"))
-                    );
+            RequestFilm rf = new RequestFilm(rs);
             listRequestFilm.add(rf);
         }
 
@@ -64,22 +53,11 @@ public class RequestFilmModel {
 
         String query = "SELECT * FROM " + this.table + " WHERE user_id = ?";
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            pstmt.setInt(1, user_id);
+            this.db.bind(user_id);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                RequestFilm rf = new RequestFilm(
-                        rs.getInt("requestFilm_id"),
-                        rs.getInt("user_id"),
-                        rs.getString("filmName"),
-                        rs.getString("description"),
-                        rs.getString("film_path"),
-                        rs.getString("film_poster"),
-                        rs.getString("film_header"),
-                        rs.getDate("date_release"),
-                        rs.getInt("duration"),
-                        Status.fromStatusCode(rs.getString("status"))
-                );
+                RequestFilm rf = new RequestFilm(rs);
                 listRequestFilm.add(rf);
             }
         }
@@ -89,22 +67,14 @@ public class RequestFilmModel {
 
     /**Get Request Film by Film Id */
     public RequestFilm getRequestFilmByFilmId(int requestFilm_id) throws SQLException{
-        RequestFilm rf = new RequestFilm();
+        RequestFilm rf = null;
         String query = "SELECT * FROM " + this.table + " WHERE requestFilm_id = ?";
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            pstmt.setInt(1, requestFilm_id);
+            this.db.bind(requestFilm_id);
+            
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                rf.setRequestFilm_id(rs.getInt("requestFilm_id"));
-                rf.setUser_id(rs.getInt("user_id"));
-                rf.setFilmName(rs.getString("filmName"));
-                rf.setDescription(rs.getString("description"));
-                rf.setFilm_path(rs.getString("film_path"));
-                rf.setFilm_poster(rs.getString("film_poster"));
-                rf.setFilm_header(rs.getString("film_header"));
-                rf.setDate_release(rs.getDate("date_release"));
-                rf.setDuration(rs.getInt("duration"));
-                rf.setStatus(Status.fromStatusCode(rs.getString("status")));
+                rf = new RequestFilm(rs);
             }
         }
         return rf;
@@ -117,15 +87,9 @@ public class RequestFilmModel {
         String query = "INSERT INTO " + this.table + " (user_id, filmName, description, film_path, " +
                 "film_poster, film_header, date_release, duration) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            pstmt.setInt(1, user_id);
-            pstmt.setString(2, filmName);
-            pstmt.setString(3, description);
-            pstmt.setString(4, film_path);
-            pstmt.setString(5, film_poster);
-            pstmt.setString(6, film_header);
-            pstmt.setDate(7, new java.sql.Date(date_release.getTime()));
-            pstmt.setInt(8, duration);
+        try (PreparedStatement pstmt = this.db.prepareStatement(query))
+        {
+            this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";
@@ -143,15 +107,7 @@ public class RequestFilmModel {
                 "WHERE requestFilm_id = ?";
 
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            pstmt.setInt(1, requestFilm_id);
-            pstmt.setInt(2, user_id);
-            pstmt.setString(3, filmName);
-            pstmt.setString(4, description);
-            pstmt.setString(5, film_path);
-            pstmt.setString(6, film_poster);
-            pstmt.setString(7, film_header);
-            pstmt.setDate(8, new java.sql.Date(date_release.getTime()));
-            pstmt.setInt(9, duration);
+            this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration, requestFilm_id);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + "rows affected";
@@ -165,7 +121,7 @@ public class RequestFilmModel {
         String query = "DELETE FROM " + this.table + " WHERE requestFilm_id = ?";
 
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            pstmt.setInt(1, requestFilm_id);
+            this.db.bind(1, requestFilm_id);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";
@@ -174,7 +130,4 @@ public class RequestFilmModel {
             return "Error deleting request film";
         }
     }
-
-
-
 }
