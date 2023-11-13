@@ -60,7 +60,7 @@ public class KeyHandler implements SOAPHandler<SOAPMessageContext> {
         soapFault.setFaultString(faultString);
     }
 
-    private boolean authorize(SOAPMessageContext ctx){
+    public static boolean authorize(SOAPMessageContext ctx){
         try{
             @SuppressWarnings("unchecked")
             Map<String, List<?>> headers = (Map<String, List<?>>) ctx.get(MessageContext.HTTP_REQUEST_HEADERS);

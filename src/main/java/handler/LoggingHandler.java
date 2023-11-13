@@ -12,6 +12,8 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.Headers;
+
 
 import model.ApiKeysModel;
 import model.LoggingModel;
@@ -29,6 +31,7 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public boolean handleFault(SOAPMessageContext ctx){
+        insertLog(ctx);
         return true;
     }
 
@@ -41,11 +44,18 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
     private void insertLog(SOAPMessageContext ctx){
         try {
             StringBuilder description = new StringBuilder();
-            // if((boolean) ctx.get("authorized")){
-            //     description.append("Called ");
-            // }else{
-            //     description.append("Unauthorized access tried to call ");
-            // }
+
+            boolean outbound = (boolean) ctx.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+            boolean authorized = KeyHandler.authorize(ctx);
+            if(outbound){
+                if(authorized){
+                    description.append("Called ");
+                }else{
+                    description.append("Unauthorized tried to call ");
+                }
+            }else{
+                description.append("Attempting to call ");
+            }
             
             QName operation = (QName) ctx.get(MessageContext.WSDL_OPERATION);
             description.append(operation.getLocalPart());
@@ -54,6 +64,7 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
             String ip = exchange.getRemoteAddress().getAddress().getHostAddress();
             String endpoint = exchange.getRequestURI().toString();
+            
             Timestamp ts = new Timestamp(System.currentTimeMillis());
 
             LoggingModel.getInstance().createLog(description.toString(), ip, endpoint, ts);
