@@ -18,12 +18,7 @@ public class RequestFilmWS extends BaseWS{
     public List<RequestFilm> getAllRequestFilms() {
         try {
             List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilm();
-            if(result.isEmpty()){
-                return null;
-            } else {
-                insertLog("Get All Request Film", "service.RequestFilmWS");
-                return result;
-            }
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -34,12 +29,7 @@ public class RequestFilmWS extends BaseWS{
     public List<RequestFilm> getAllRequestFilmById(@WebParam(name="user_id") int user_id){
         try {
             List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilm();
-            if(result.isEmpty()){
-                return null;
-            } else {
-                insertLog("Get All Request Film", "service.RequestFilmWS");
-                return result;
-            }
+            return result;
         } catch (Exception e){
             e.printStackTrace();
             return null;
@@ -50,12 +40,7 @@ public class RequestFilmWS extends BaseWS{
     public RequestFilm getRequestFilmByFilmId(@WebParam(name="requestFilm_id") int requestFilm_Id){
         try {
             RequestFilm result =  RequestFilmModel.getInstance().getRequestFilmByFilmId(requestFilm_Id);
-            if(result == null){
-                return null;
-            } else {
-                insertLog("", "service.RequestFilmWS");
-                return result;
-            }
+            return result;
         } catch (Exception e){
             e.printStackTrace();
             return null;
