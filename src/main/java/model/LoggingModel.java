@@ -11,6 +11,7 @@ import object.Logging;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,7 @@ public class LoggingModel {
         return listLogging;
     }
 
-    public String createLog(String description, String ip, String endpoint, Date requested_At) throws SQLException{
+    public String createLog(String description, String ip, String endpoint, Timestamp requested_At) throws SQLException{
 
         String query = "INSERT INTO " + this.table + " (description, ip, endpoint, requested_at)" +
                 "VALUES ( ?, ?, ?, ?)";
@@ -61,7 +62,7 @@ public class LoggingModel {
             pstmt.setString(1, description);
             pstmt.setString(2, ip);
             pstmt.setString(3, endpoint);
-            pstmt.setDate(4, new java.sql.Date(requested_At.getTime()));
+            pstmt.setTimestamp(4, requested_At);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";

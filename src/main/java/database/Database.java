@@ -3,6 +3,8 @@ package database;
 import java.sql.*;
 import java.util.Date;
 
+import enums.Status;
+
 public class Database {
     private String host = System.getenv("DB_HOST");
     private String port = System.getenv("DB_PORT");
@@ -49,7 +51,10 @@ public class Database {
     }
 
     public void bind(int index, Object value) throws SQLException{
-        if(value instanceof java.sql.Date){
+        if(value instanceof java.sql.Timestamp){
+            this.psmt.setTimestamp(index, (java.sql.Timestamp)value);
+        }
+        else if(value instanceof java.sql.Date){
             this.psmt.setDate(index, (java.sql.Date)value);
         }
         else if(value instanceof java.util.Date){
@@ -64,6 +69,9 @@ public class Database {
         }
         else if(value instanceof Boolean){
             this.psmt.setBoolean(index, (Boolean) value);
+        }else if(value instanceof Status){
+            Status val = (Status) value;
+            this.psmt.setString(index, "'"+val.getStatusCode().toUpperCase()+"'");
         }
     }
 

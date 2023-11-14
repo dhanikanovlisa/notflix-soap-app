@@ -5,4 +5,9 @@
       <handler-class>handler.KeyHandler</handler-class>
     </handler>
   </handler-chain>
+  <handler-chain>
+    <handler>
+      <handler-class>handler.LoggingHandler</handler-class>
+    </handler>
+  </handler-chain>
 </handler-chains>

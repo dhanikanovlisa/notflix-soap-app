@@ -14,11 +14,31 @@ import java.util.List;
 
 @WebService(endpointInterface = "service.SubscriptionWS")
 @HandlerChain(file = "log_and_auth.xml")
-public class SubscriptionWS extends BaseWS{
+public class SubscriptionWS{
     @WebMethod
     public List<Subscription> getAllSubscription(){
         try{
             return SubscriptionModel.getInstance().getAllSubscription();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @WebMethod
+    public Status checkSubscriptionStatus(@WebParam(name="user_id") Integer user_id){
+        try{
+            return SubscriptionModel.getInstance().getSubscriptionStatus(user_id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @WebMethod
+    public List<Subscription> getSubscriptionsByStatus(@WebParam(name="status") String status){
+        try{
+            return SubscriptionModel.getInstance().getSubscriptionsByStatus(Status.fromStatusCode(status));
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -52,4 +72,5 @@ public class SubscriptionWS extends BaseWS{
         }
         return null;
     }
+
 }
