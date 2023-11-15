@@ -26,7 +26,7 @@ public class SubscriptionWS{
     }
 
     @WebMethod
-    public Status checkSubscriptionStatus(@WebParam(name="user_id") Integer user_id){
+    public Subscription checkSubscriptionStatus(@WebParam(name="user_id") Integer user_id){
         try{
             return SubscriptionModel.getInstance().getSubscriptionStatus(user_id);
         }catch(Exception e){

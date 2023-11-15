@@ -50,14 +50,14 @@ public class SubscriptionModel {
         return ls;
     }
 
-    public Status getSubscriptionStatus(int user_id) throws SQLException{
+    public Subscription getSubscriptionStatus(int user_id) throws SQLException{
         String query = "SELECT * FROM "+this.table+" WHERE creator_id = ?";
         PreparedStatement pstmt = this.db.prepareStatement(query);
         this.db.bind(user_id);
 
         ResultSet rs = pstmt.executeQuery();
         if(rs.next()){
-            return Status.fromStatusCode(rs.getString("status"));
+            return new Subscription(rs);
         }
         return null;
     }
