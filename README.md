@@ -2,7 +2,7 @@
 This is a SOAP Service for Notflix which manages users subscription and likes in Notflix app, manage users film request in Notflix premium app
 
 ## Database Schemes
-![image](notflix_soap_scheme.png)
+![image](screenshots/notflix_soap_scheme.png)
 ## Endpoint API
 
 ## Prerequisites
