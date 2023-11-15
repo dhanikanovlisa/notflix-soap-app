@@ -28,7 +28,7 @@ public class RequestFilmWS{
     @WebMethod
     public List<RequestFilm> getAllRequestFilmById(@WebParam(name="user_id") int user_id){
         try {
-            List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilm();
+            List<RequestFilm> result =  RequestFilmModel.getInstance().getAllRequestFilmById(user_id);
             return result;
         } catch (Exception e){
             e.printStackTrace();
