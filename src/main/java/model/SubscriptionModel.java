@@ -78,7 +78,18 @@ public class SubscriptionModel {
     }
     
     public String requestSubscription(int user_id) throws SQLException{
-        String query = "INSERT INTO "+this.table+" (creator_id) VALUES (?)";
+        String queryCheck = "SELECT * FROM "+this.table+" WHERE creator_id = ?";
+        PreparedStatement pstmtCheck = this.db.prepareStatement(queryCheck);
+        this.db.bind(user_id);
+        ResultSet rs = pstmtCheck.executeQuery();
+        
+        String query;
+        if(rs.next()){
+            query = "UPDATE "+this.table+" SET status = '"+Status.PENDING.getStatusCode()+"' WHERE creator_id = ?";
+        }
+        else{
+            query = "INSERT INTO "+this.table+" (creator_id) VALUES (?)";
+        }
         PreparedStatement pstmt = this.db.prepareStatement(query);
         this.db.bind(user_id);
         
