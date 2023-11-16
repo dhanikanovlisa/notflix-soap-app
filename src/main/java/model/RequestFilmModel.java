@@ -89,7 +89,14 @@ public class RequestFilmModel {
                 "film_poster, film_header, date_release, duration) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
         System.out.println(query);
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration);
+            this.db.bind(1, user_id);
+                    this.db.bind(2, filmName);
+                    this.db.bind(3, description);
+                    this.db.bind(4, film_path);
+                    this.db.bind(5, film_poster);
+                    this.db.bind(6, film_header);
+                    this.db.bind(7, date_release);
+                    this.db.bind(8, duration);
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";
         } catch (SQLException e) {
@@ -107,8 +114,15 @@ public class RequestFilmModel {
                 "WHERE requestFilm_id = ?";
 
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
-            this.db.bind(user_id, filmName, description, film_path, film_poster, film_header, date_release, duration,
-                    requestFilm_id);
+                    this.db.bind(1, user_id);
+                    this.db.bind(2, filmName);
+                    this.db.bind(3, description);
+                    this.db.bind(4, film_path);
+                    this.db.bind(5, film_poster);
+                    this.db.bind(6, film_header);
+                    this.db.bind(7, date_release);
+                    this.db.bind(8, duration);
+                    this.db.bind(9, requestFilm_id);
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected + " rows affected";
         } catch (SQLException e) {
@@ -119,7 +133,6 @@ public class RequestFilmModel {
 
     public String deleteRequestFilm(int requestFilm_id) throws SQLException {
         String query = "DELETE FROM " + this.table + " WHERE requestFilm_id = ?";
-
         try (PreparedStatement pstmt = this.db.prepareStatement(query)) {
             this.db.bind(1, requestFilm_id);
 
