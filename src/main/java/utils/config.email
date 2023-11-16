@@ -1,0 +1,8 @@
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=465
+mail.smtp.ssl.enable=true
+mail.smtp.auth=true
+
+mail.smtp.username=althaafka004@gmail.com
+mail.smtp.password=gqju iyeu dxhz lbiy
+receiver.email=13521130@std.stei.itb.ac.id
