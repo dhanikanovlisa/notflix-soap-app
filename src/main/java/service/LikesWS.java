@@ -1,14 +1,14 @@
 package service;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import model.LikesModel;
-// import object.RequestFilm;
 
 
 @WebService(endpointInterface = "service.LikesWS")
-// @HandlerChain(file = "log_and_auth.xml")
+@HandlerChain(file = "log_and_auth.xml")
 public class LikesWS{
     @WebMethod
     public Boolean isUserLikeFilm(@WebParam(name="film_id") int film_id, @WebParam(name="user_id") int user_id) {
