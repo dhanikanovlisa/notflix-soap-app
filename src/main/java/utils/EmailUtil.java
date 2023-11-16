@@ -21,10 +21,14 @@ public class EmailUtil {
 		
 	// }
 
-	public void sendEmail(String to, String sub, String body){
+	public void sendEmail(){
 		try {
 			ConfigHandler ch = new ConfigHandler("config.email");
-
+			String to = ch.get("receiver.email");
+			String sub = "New Subscription Request";
+			String body = "We have received a new subscription request. Please check the admin panel for more details.\n\n" +
+					"Regards,\n" +
+					"Team Notflixx";
 			Properties props = System.getProperties();
 			props.put("mail.smtp.host", ch.get("mail.smtp.host"));
 			props.put("mail.smtp.port", ch.get("mail.smtp.port"));
@@ -61,7 +65,6 @@ public class EmailUtil {
 	}
 
 	public static void main(String[] args) throws AddressException {
-		final String toEmail = "13521130@std.stei.itb.ac.id";
-		EmailUtil.getInstance().sendEmail(toEmail,"Subsription Notification", "Qwerty Uiopasdf Fghjkl Zxcvbn");
+		EmailUtil.getInstance().sendEmail();
 	}
 }

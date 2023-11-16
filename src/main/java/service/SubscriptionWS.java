@@ -9,6 +9,7 @@ import javax.xml.ws.WebServiceContext;
 import enums.Status;
 import model.SubscriptionModel;
 import object.Subscription;
+import utils.EmailUtil;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class SubscriptionWS{
     @WebMethod
     public String request(@WebParam(name = "user_id") Integer user_id){
         try{
+            EmailUtil.getInstance().sendEmail();
             return SubscriptionModel.getInstance().requestSubscription(user_id);
         }catch(Exception e){
             e.printStackTrace();
