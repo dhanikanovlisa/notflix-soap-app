@@ -3,7 +3,34 @@ This is a SOAP Service for Notflix which manages users subscription and likes in
 
 ## Database Schemes
 ![image](screenshots/notflix_soap_scheme.png)
+
 ## Endpoint API
+### 1. Subscription 
+| Feature             | Endpoint         |
+|---------------------|--------------|
+| **Get All Subscription**           | /ws/subscription/getAllSubscription?wsdl   |
+| **Check Subscription Status**    |   /ws/subscription/checkSubscripitionStatus?wsdl   |
+| **Get Subscripiton by Status**    | /ws/subscription/getSubscriptionByStatus?wsdl     |
+| **Accept Request**    | /ws/subscription/acceptRequest?wsdl     |
+| **Reject Request**    | /ws/subscription/rejectRequest?wsdl     |
+| **Create Request**    | /ws/subscription/request?wsdl     |
+
+### 2. Request Film 
+| Feature             | Endpoint         |
+|---------------------|--------------|
+| **Get All Request Film**           | /ws/requestFilm/getAllRequestFilm?wsdl   |
+| **Get Request Film By Id**    |  /ws/requestFilm/getAllRequestFilmById?wsdl   |
+| **Get Request Film by Film Id**    | /ws/requestFilm/getAllRequestFilmByFilmId?wsdl     |
+| **Create Request Film**    | /ws/requestFilm/createRequestFilm?wsdl     |
+| **Accept Request Film**    | /ws/requestFilm/acceptRequestFilm?wsdl     |
+| **Reject Request Film**    | /ws/requestFilm/rejectRequestFilm?wsdl     |
+
+### 3. Like Film
+| Feature             | Endpoint         |
+|---------------------|--------------|
+| **Check if user like film**           | /ws/likes/isUserLikeFilm?wsdl   |
+| **Add Likes**           | /ws/likes/addLikes?wsdl   |
+| **Delete Likes**           | /ws/likes/deleteLikes?wsdl   |
 
 ## Prerequisites
 1. Make sure your machine has Docker and Docker Compose installed.

@@ -68,16 +68,6 @@ public class RequestFilmWS{
                                     @WebParam(name="film_poster") String film_poster, @WebParam(name="film_header") String film_header,
                                     @WebParam(name="date_release") Date date_release,@WebParam(name="duration") int duration){
         try {
-            System.out.println("Dari ws");
-            System.out.println("requestFilm_Id: " + requestFilm_id);
-System.out.println("user_id: " + user_id);
-System.out.println("filmName: " + filmName);
-System.out.println("description: " + description);
-System.out.println("film_path: " + film_path);
-System.out.println("film_poster: " + film_poster);
-System.out.println("film_header: " + film_header);
-System.out.println("date_release: " + date_release);
-System.out.println("duration: " + duration);
             return RequestFilmModel.getInstance().editRequestFilm(requestFilm_id, user_id, filmName, description, film_path,
                     film_poster, film_header, date_release, duration);
         } catch (Exception e){
