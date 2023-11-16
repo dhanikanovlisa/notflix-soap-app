@@ -129,4 +129,14 @@ public class RequestFilmModel {
             return "Error deleting request film";
         }
     }
+
+    public String updateRequestFilmState(int requestFilm_Id, Status new_state) throws SQLException {
+        String query = "UPDATE "+this.table+" SET status = '"+new_state.getStatusCode()+"' WHERE requestFilm_id = ?";
+
+        PreparedStatement pstmt = this.db.prepareStatement(query);
+        this.db.bind(requestFilm_Id);
+
+        int rowsAffected = pstmt.executeUpdate();
+        return rowsAffected + " rows affected";
+    }
 }

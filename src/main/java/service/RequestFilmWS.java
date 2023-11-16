@@ -5,6 +5,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
+
+import enums.Status;
 import model.RequestFilmModel;
 import object.RequestFilm;
 
@@ -78,6 +80,26 @@ public class RequestFilmWS{
     public String deleteRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id){
         try{
             return RequestFilmModel.getInstance().deleteRequestFilm(requestFilm_id);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @WebMethod
+    public String acceptRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id){
+        try{
+            return RequestFilmModel.getInstance().updateRequestFilmState(requestFilm_id, Status.ACCEPTED);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @WebMethod
+    public String rejectRequestFilm(@WebParam(name="requestFilm_id") int requestFilm_id){
+        try{
+            return RequestFilmModel.getInstance().updateRequestFilmState(requestFilm_id, Status.REJECTED);
         } catch (Exception e){
             e.printStackTrace();
             return null;
