@@ -48,6 +48,21 @@ public class RequestFilmModel {
         return listRequestFilm;
     }
 
+    public List<RequestFilm> getAllRequestFilmByStatus(Status state) throws SQLException{
+        List<RequestFilm> listRequestFilm = new ArrayList<>();
+        String query = "SELECT * FROM "+this.table+" WHERE status = '"+state.getStatusCode().toUpperCase()+"'";
+
+        PreparedStatement pstmt = this.db.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            RequestFilm rf = new RequestFilm(rs);
+            listRequestFilm.add(rf);
+        }
+
+        return listRequestFilm;
+    }
+
     /** Get all request film by id */
     public List<RequestFilm> getAllRequestFilmById(int user_id) throws SQLException {
         List<RequestFilm> listRequestFilm = new ArrayList<>();
