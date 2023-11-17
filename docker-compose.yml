@@ -8,29 +8,35 @@ services:
     ports:
       - "3030:3030"
     depends_on:
-      - soap-db
+      soap-db:
+        condition: service_healthy
     volumes:
-      - ./src/app:/app
+      - /app
   soap-db:
-    container_name: soap-db-container
+    container_name: soap-db
     image: mysql
     restart: unless-stopped
     volumes:
-      - ./migration/service-soap.sql:/docker-entrypoint-initdb.d/schema.sql:ro
-    env_file: .env
+      - ./migration/init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: notflix_service_soap
+      MYSQL_TCP_PORT: 3307
     ports:
-      - "3040:3306"
+      - "3307:3307"
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -u root --password=$MYSQL_PASSWORD"]
+      test: ["CMD-SHELL", "mysqladmin ping -u root --password=$MYSQL_ROOT_PASSWORD"]
       interval: 10s
       retries: 10
-      timeout: 5s
+      timeout: 120s
   phpmyadmin:
     container_name: soap-srv-pma
     image: phpmyadmin
     depends_on:
-      - soap-db
+      soap-db:
+        condition: service_healthy
     environment:
       PMA_HOST: soap-db
+      PMA_PORT: 3307
     ports:
       - "4030:80"
